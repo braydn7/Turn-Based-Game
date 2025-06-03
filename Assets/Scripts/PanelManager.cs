@@ -31,7 +31,7 @@ public class PanelManager: MonoBehaviour
         
         Button newButton = newButtonObj.GetComponent<Button>();
 
-        newButton.GetComponentInChildren<TextMeshPro>().text = label; // Set the button label
+        newButton.GetComponentInChildren<TextMeshPro>(). = label; // Set the button label
 
 		newButton.onClick.AddListener(() => onClick.Invoke()); // Add the click listener
 
