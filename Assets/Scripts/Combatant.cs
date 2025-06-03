@@ -1,0 +1,77 @@
+using System;
+using UnityEngine;
+
+public class Combatant : MonoBehaviour
+{
+    public String Name;
+    public int Speed;
+    public int MaxHP;
+    public int CurrentHP;
+    public int AttackPower;
+
+	public Combatant(string name, int maxHP, int attackPower)
+	{
+		Name = name;
+		MaxHP = maxHP;
+		CurrentHP = maxHP; // Start with full health
+		AttackPower = attackPower;
+	}
+
+	// Start is called once before the first execution of Update after the MonoBehaviour is created
+	void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+	// Method to take a turn, can be overridden by subclasses for specific behavior
+    public virtual void TakeTurn()
+    {
+
+        // Default behavior can be defined here, or overridden in subclasses
+        Debug.Log($"{Name} takes their turn.");
+	}
+
+	// Method to perform an attack on another combatant
+	public void Attack(Combatant target)
+    {
+        if (IsAlive() && target.IsAlive())
+        {
+            target.TakeDamage(AttackPower);
+            Debug.Log($"{Name} attacks {target.Name} for {AttackPower} damage!");
+        }
+        else if (!IsAlive())
+        {
+            Debug.Log($"{Name} cannot attack because they are not alive.");
+        }
+        else if (!target.IsAlive())
+		{
+            Debug.Log($"{target.Name} cannot be attacked because they are not alive.");
+		}
+	}
+
+	// Method to apply damage to the combatant
+	public void TakeDamage(int damage)
+    {
+        CurrentHP -= damage;
+        if (CurrentHP < 0)
+        {
+            CurrentHP = 0;
+        }
+    }
+    // Method to check if the combatant is alive
+    public bool IsAlive()
+    {
+        return CurrentHP > 0;
+    }
+    // Method to reset the combatant's health
+    public void ResetHealth()
+    {
+        CurrentHP = MaxHP;
+	}
+}
