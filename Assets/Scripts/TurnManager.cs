@@ -24,7 +24,7 @@ public class TurnManager : MonoBehaviour
         {
             if (currentCombatant.IsAlive())
             {
-                currentCombatant.takeTurn();
+                // currentCombatant.takeTurn();
             }
         }
 	}
