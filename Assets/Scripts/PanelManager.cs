@@ -10,12 +10,12 @@ public class PanelManager: MonoBehaviour
     [SerializeField]
 	private List<Button> DisplayedButtons; // List of buttons to be populated in the panel
     [SerializeField]
-    private HorizontalLayoutGroup layoutGroup; // Layout group to manage the arrangement of buttons
+    private GridLayoutGroup layoutGroup;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
     {
-        layoutGroup = GetComponent<HorizontalLayoutGroup>();
+        layoutGroup = GetComponent<GridLayoutGroup>();
         if (layoutGroup == null)
         {
             Debug.LogError("HorizontalLayoutGroup component is missing from the PanelManager GameObject.");
@@ -31,7 +31,7 @@ public class PanelManager: MonoBehaviour
         
         Button newButton = newButtonObj.GetComponent<Button>();
 
-        newButton.GetComponentInChildren<TextMeshPro>(). = label; // Set the button label
+        newButton.GetComponentInChildren<TextMeshProUGUI>().SetText(label);
 
 		newButton.onClick.AddListener(() => onClick.Invoke()); // Add the click listener
 
@@ -54,5 +54,6 @@ public class PanelManager: MonoBehaviour
         addButton("Down", () => Debug.Log("Down button clicked"));
         addButton("Left", () => Debug.Log("Left button clicked"));
         addButton("Right", () => Debug.Log("Right button clicked"));
+        addButton("Back", () => Debug.Log("Back button clicked")); 
 	}
 }
