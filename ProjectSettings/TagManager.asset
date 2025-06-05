@@ -44,6 +44,9 @@ TagManager:
   - name: Background
     uniqueID: 1344248697
     locked: 0
+  - name: Tile Outline
+    uniqueID: 3279614905
+    locked: 0
   - name: Foreground
     uniqueID: 309698887
     locked: 0

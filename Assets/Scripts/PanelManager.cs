@@ -9,7 +9,7 @@ public class PanelManager: MonoBehaviour
     private GameObject buttonPrefab; // Prefab for the buttons to be instantiated
     [SerializeField]
 	private List<Button> DisplayedButtons; // List of buttons to be populated in the panel
-    [SerializeField]
+    [SerializeField] 
     private GridLayoutGroup layoutGroup;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created

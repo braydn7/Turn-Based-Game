@@ -32,7 +32,7 @@ public class TurnManager : MonoBehaviour
     private List<Combatant> getTurnOrder(Combatant[] combatants)
     {
         List<Combatant> turnOrder = new List<Combatant>(combatants);
-        turnOrder.Sort((a, b) => b.AttackPower.CompareTo(a.Speed)); // Sort by Speed in descending order
+        turnOrder.Sort((a, b) => b.Speed.CompareTo(a.Speed)); // Sort by Speed in descending order
 		return turnOrder;
 	}
 }

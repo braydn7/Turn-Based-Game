@@ -3,18 +3,21 @@ using UnityEngine;
 
 public class Combatant : MonoBehaviour
 {
-    public String Name;
-    public int Speed;
+    public string Name;
+	public int Speed;
     public int MaxHP;
     public int CurrentHP;
     public int AttackPower;
+    private Grid grid; //
 
-	public Combatant(string name, int maxHP, int attackPower)
+	public virtual void Initialize(string name, int speed, int maxHP, int attackPower, Grid gameGrid)
 	{
 		Name = name;
+        Speed = speed;
 		MaxHP = maxHP;
 		CurrentHP = maxHP; // Start with full health
 		AttackPower = attackPower;
+        grid = gameGrid; // Assign the grid reference
 	}
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -38,7 +41,7 @@ public class Combatant : MonoBehaviour
 	}
 
 	// Method to perform an attack on another combatant
-	public void Attack(Combatant target)
+	public virtual void Attack(Combatant target)
     {
         if (IsAlive() && target.IsAlive())
         {
