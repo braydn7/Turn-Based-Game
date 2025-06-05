@@ -9,7 +9,7 @@ public class Game : MonoBehaviour
     [SerializeField]
     private Grid gameGrid;
     [SerializeField]
-    private Tilemap playerTileMap;
+    private Tilemap tilemap;
     private bool isCombat;
     private Combatant player;
     private List<Combatant> npcs;
@@ -17,6 +17,7 @@ public class Game : MonoBehaviour
     private Vector3Int lastHighlightedTile = Vector3Int.zero;
     private Color highlightColor = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, 0.6f); // Semi-transparent yellow
     private Color defaultColor = new Color(0f, 0f, 0f, .2f);
+	[SerializeField] private Camera mainCamera;
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
     {
@@ -26,41 +27,40 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 mousev2 = Mouse.current.position.ReadValue(); 
-        Vector3 mousePosition = new Vector3(mousev2.x, mousev2.y, 0); // Convert to Vector3 with z = 0
+		// Get the mouse position in screen coordinates
+		Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
+		Debug.Log($"Mouse Screen Position: {mouseScreenPos}");
 
-        Vector3Int cellPosition = gameGrid.WorldToCell(mousePosition);
-        //Debug.Log($"Mouse Position: {mousePosition}, Cell Position: {cellPosition}");
+		// Convert screen position to world position
+		Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(new Vector3(mouseScreenPos.x, mouseScreenPos.y, tilemap.transform.position.z - mainCamera.transform.position.z));
+		Debug.Log($"Mouse World Position: {mouseWorldPos}");
 
-        TileBase tile = playerTileMap.GetTile<Tile>(cellPosition);
-		
-        if (tile != null)
-        {
-            if(isTileHighlighted && cellPosition != lastHighlightedTile)
-            {
-                playerTileMap.SetColor(lastHighlightedTile, defaultColor);
-                isTileHighlighted = false;
-			}
+		// Convert world position to Tilemap cell position
+		Vector3Int cellPosition = tilemap.WorldToCell(mouseWorldPos);
+		Debug.Log($"Cell Position: {cellPosition}");
 
-            if (!isTileHighlighted)
-            {
-                playerTileMap.SetColor(cellPosition, highlightColor);
-                isTileHighlighted = true;
-                lastHighlightedTile = cellPosition;
-			}
-            Debug.Log($"Tile at {cellPosition} is {tile.name}");
-        }
-        else
-        {
-            if(isTileHighlighted)
-            {
-                playerTileMap.SetColor(lastHighlightedTile, defaultColor);
-                isTileHighlighted = false;
-			}
-			Debug.Log($"No tile at {cellPosition}");
+		// Check if there's a tile at the cell position
+		TileBase tile = tilemap.GetTile(cellPosition);
+
+		// Output the result
+		if (tile != null)
+		{
+			Debug.Log($"Mouse is over tile at grid position: {cellPosition}, Tile: {tile.name}");
+		}
+		else
+		{
+			Debug.Log($"No tile at grid position: {cellPosition}");
 		}
 
-
-
+		// Additional debug: Check if any tiles exist in the Tilemap
+		BoundsInt bounds = tilemap.cellBounds;
+		Debug.Log($"Tilemap Bounds: {bounds}");
+		TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
+		int tileCount = 0;
+		foreach (TileBase t in allTiles)
+		{
+			if (t != null) tileCount++;
+		}
+		Debug.Log($"Total tiles in Tilemap: {tileCount}");
 	}
 }
