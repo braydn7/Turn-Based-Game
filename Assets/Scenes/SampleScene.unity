@@ -262,9 +262,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 513422169}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60a5b7af9c9aff642a5a731dea423fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: 45bfa3647faed284fb2d698448838c2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameGrid: {fileID: 819381585}
+  playerTileMap: {fileID: 1732184747}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
