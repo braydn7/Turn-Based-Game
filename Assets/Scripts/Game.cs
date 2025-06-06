@@ -13,19 +13,21 @@ public class Game : MonoBehaviour
     private Tilemap backgroundTilemap;
 	[SerializeField] 
 	private Tilemap outlineTilemap;
-	[SerializeField] 
+	[SerializeField]
+	private Tilemap foregroundTileMap;
+	[SerializeField]
 	private Camera mainCamera;
 
 	[SerializeField]
 	public Vector3Int currentMouseTilePosition;
-	private bool isCombat;
-    private Player player;
-    private List<Combatant> npcs;
-    private bool isTileHighlighted = false;
-	private Vector3Int invalidPosition = new Vector3Int(-1, -1, -1);
-	private Vector3Int lastHighlightedTile = new Vector3Int(-1, -1, -1); // Initialize to an invalid position
-	private Color highlightColor = new Color(Color.blue.r, Color.blue.g, Color.blue.b, 0.8f); 
-    private Color defaultColor = new Color(1f, 1f, 1f, 1f);
+	public bool isCombat;
+    public Player player;
+	public List<Combatant> npcs;
+    public bool isTileHighlighted = false;
+	public Vector3Int invalidPosition = new Vector3Int(-1, -1, -1);
+	public Vector3Int lastHighlightedTile = new Vector3Int(-1, -1, -1); // Initialize to an invalid position
+	public Color highlightColor = new Color(Color.blue.r, Color.blue.g, Color.blue.b, 0.8f); 
+    public Color defaultColor = new Color(1f, 1f, 1f, 1f);
 	
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
@@ -38,21 +40,23 @@ public class Game : MonoBehaviour
     {
 		mouseTileTrack();
 		HighlightTiles(outlineTilemap);
+		if (Mouse.current.leftButton.isPressed)
+		{
+			if (currentTile(backgroundTilemap) != null)
+			{
+				player.Move(currentMouseTilePosition);
+			}
+			else
+			{
+				Debug.Log("no tile where you clicked!");
+			}
+		}
+		
 	}
 
 	public void HighlightTiles(Tilemap tilemap)
 	{
-		Tile tile = (Tile)tilemap.GetTile(currentMouseTilePosition);
-
-		// Output the result
-		if (tile != null)
-		{
-			Debug.Log($"Mouse is over tile at grid position: {currentMouseTilePosition}, Tile: {tile.name}");
-		}
-		else
-		{
-			Debug.Log($"No tile at grid position: {currentMouseTilePosition}");
-		}
+		Tile tile = currentTile(tilemap);
 
 		if(!isTileHighlighted || lastHighlightedTile != invalidPosition)
 		{
@@ -76,6 +80,22 @@ public class Game : MonoBehaviour
 				lastHighlightedTile = invalidPosition;
 			}
 		}
+	}
+
+	public Tile currentTile(Tilemap tilemap)
+	{
+		Tile tile = (Tile)tilemap.GetTile(currentMouseTilePosition);
+
+		// Output the result
+		if (tile != null)
+		{
+			Debug.Log($"Mouse is over tile at grid position: {currentMouseTilePosition}, Tile: {tile.name}");
+		}
+		else
+		{
+			Debug.Log($"No tile at grid position: {currentMouseTilePosition}");
+		}
+		return tile;
 	}
 
 	public void mouseTileTrack()

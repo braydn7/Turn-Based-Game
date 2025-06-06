@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Player : Combatant
 {
@@ -15,4 +16,10 @@ public class Player : Combatant
        
     }
     */
+
+    public void Move(Vector3Int clickPosition)
+    {
+        Vector3 centerClickPosition = tilemap.GetCellCenterWorld(clickPosition);
+        transform.position = centerClickPosition;
+    }
 }

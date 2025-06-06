@@ -268,7 +268,17 @@ MonoBehaviour:
   gameGrid: {fileID: 819381585}
   backgroundTilemap: {fileID: 1630783632}
   outlineTilemap: {fileID: 1732184747}
+  foregroundTileMap: {fileID: 2072045310}
   mainCamera: {fileID: 519420031}
+  currentMouseTilePosition: {x: 0, y: 0, z: 0}
+  isCombat: 0
+  player: {fileID: 1333377504}
+  npcs: []
+  isTileHighlighted: 0
+  invalidPosition: {x: -1, y: -1, z: -1}
+  lastHighlightedTile: {x: -1, y: -1, z: -1}
+  highlightColor: {r: 0, g: 0, b: 1, a: 0.8}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -822,6 +832,7 @@ MonoBehaviour:
   MaxHP: 0
   CurrentHP: 0
   AttackPower: 0
+  game: {fileID: 513422171}
   tilemap: {fileID: 2072045310}
   currentTilePos: {x: 0, y: 0, z: 0}
 --- !u!4 &1333377505
