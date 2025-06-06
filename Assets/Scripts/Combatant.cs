@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Combatant : MonoBehaviour
 {
@@ -8,23 +9,29 @@ public class Combatant : MonoBehaviour
     public int MaxHP;
     public int CurrentHP;
     public int AttackPower;
-    private Grid grid; //
+    [SerializeField]
+    public Game game;
+    [SerializeField]
+    protected Tilemap tilemap;
+    [SerializeField]
+    protected Vector3Int currentTilePos;
 
-	public virtual void Initialize(string name, int speed, int maxHP, int attackPower, Grid gameGrid)
+
+	public virtual void Initialize(string name, int speed, int maxHP, int attackPower)
 	{
 		Name = name;
         Speed = speed;
 		MaxHP = maxHP;
 		CurrentHP = maxHP; // Start with full health
 		AttackPower = attackPower;
-        grid = gameGrid; // Assign the grid reference
 	}
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
     {
-        
-    }
+        currentTilePos = tilemap.WorldToCell(transform.position);
+        transform.position = tilemap.GetCellCenterWorld(currentTilePos);
+	}
 
     // Update is called once per frame
     void Update()
