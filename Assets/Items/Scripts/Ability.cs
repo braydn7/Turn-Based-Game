@@ -1,10 +1,11 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Ability", menuName = "Scriptable Objects/Ability")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Ability")]
 public class Ability : ScriptableObject
 {
-    string name;
-    int cooldown;
-    int manaCost;
-    CombatClass combatClass;
+	public string abilityName;
+    public int cooldown;
+    public int manaCost;
+    public CombatClass combatClass;
+	public AbilityType abilityType;
 }

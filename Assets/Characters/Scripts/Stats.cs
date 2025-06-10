@@ -2,5 +2,13 @@ using UnityEngine;
 
 public class Stats
 {
-    int Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma;
+    enum BaseStats
+    {
+        STR,
+        DEX,
+        INT,
+        CON,
+        WIS,
+        CHA
+    }
 }
