@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c63e524ae3d50746b93b7713872067a, type: 3}
+  m_Name: BanditTemplate
+  m_EditorClassIdentifier: 
+  Name: Bandit
+  currentHP: 20
+  maxHP: 25
+  level: 3
+  sprite: {fileID: -644773305562672891, guid: ae26685cc784bd44794b86710a9cc4fc, type: 3}
+  abilities:
+  - {fileID: 11400000, guid: a2cf9fab0aeb062479f7ceda8fd2ffc2, type: 2}
+  stats:
+    str: 10
+    dex: 10
+    int: 10
+    con: 10
+    wis: 10
+    cha: 10
