@@ -13,5 +13,4 @@ public class CombatantTemplate : ScriptableObject
 	public List<Ability> abilities;
     public List<Item> inventory;
     public Stats stats;
-    
 }

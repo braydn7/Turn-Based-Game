@@ -13,16 +13,14 @@ MonoBehaviour:
   m_Name: BanditTemplate
   m_EditorClassIdentifier: 
   Name: Bandit
-  currentHP: 20
-  maxHP: 25
   level: 3
   sprite: {fileID: -644773305562672891, guid: ae26685cc784bd44794b86710a9cc4fc, type: 3}
   abilities:
-  - {fileID: 11400000, guid: a2cf9fab0aeb062479f7ceda8fd2ffc2, type: 2}
+  - {fileID: 11400000, guid: fb268ae903687e745b1a852765b82078, type: 2}
   stats:
-    str: 10
-    dex: 10
-    int: 10
-    con: 10
-    wis: 10
-    cha: 10
+    STR: 0
+    DEX: 0
+    INT: 0
+    CON: 0
+    WIS: 0
+    CHA: 0

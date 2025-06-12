@@ -2,18 +2,14 @@ using UnityEngine;
 
 public class CombatantInstance : MonoBehaviour
 {
-    public CombatantTemplate template;
+    public Stats baseStats;
 
-    public int maxHP;
-    public int currentHP;
-    public Stats startingStats;
-
+    int currentHP;
 
     public void Initialize(CombatantTemplate combatantTemplate)
     {
-        template = combatantTemplate;
-		maxHP = template.stats.Get(Stats.BaseStat.CON);
-		currentHP = maxHP;
+        baseStats = combatantTemplate.stats;
+        currentHP = MaxHP;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,4 +22,6 @@ public class CombatantInstance : MonoBehaviour
     {
         
     }
+
+    public int MaxHP => baseStats.CON * 2;
 }
