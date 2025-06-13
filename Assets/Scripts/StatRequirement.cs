@@ -2,6 +2,6 @@ using UnityEngine;
 
 public class StatRequirement
 {
-    int requirement;
-    BaseStat baseStat;
+    public int requirement;
+    public BaseStat baseStat;
 }

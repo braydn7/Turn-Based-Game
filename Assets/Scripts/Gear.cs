@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ArmorSlot
+public enum GearSlot
 {
     Head,
     Chest,
@@ -9,11 +9,13 @@ public enum ArmorSlot
     Hands,
     Feet,
     Neck,
-    Ring
+    Ring,
+    MainHand,
+    Offhand
 }
-public class Armor
+public class Gear : Item
 {
-    public ArmorSlot armorSlot;
+    public GearSlot gearSlot;
     public List<CombatClass> wearableClasses;
 
     public List<StatRequirement> statRequirements;
