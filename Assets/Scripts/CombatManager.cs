@@ -1,23 +1,32 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CombatManager : MonoBehaviour
 {
-    private List<CombatantInstance> combatants;
-    private int turnNumber;
+    private List<CombatantInstance> activeCombatants = new();
+    public Queue<CombatantInstance> turnQueue = new Queue<CombatantInstance>();
+    public int initiativeThreshold = 100;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void StartCombat(List<CombatantInstance> combatants)
     {
-        
+        activeCombatants = new List<CombatantInstance>(combatants);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CombatTick()
     {
-        
+        foreach (CombatantInstance c in activeCombatants)
+        {
+            c.currentInitiative += c.Speed;
+        }
+
+        activeCombatants = activeCombatants.OrderByDescending(c => c.currentInitiative).ToList();
+
+        while (activeCombatants[0].currentInitiative >= initiativeThreshold)
+        {
+            var actingCombatant = activeCombatants[0];
+            actingCombatant.currentInitiative -= initiativeThreshold;
+            turnQueue.Enqueue(actingCombatant);
+        }
     }
-
-
 }

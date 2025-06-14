@@ -9,7 +9,7 @@ public class AbilityManager
         for (int i = 0; i < ability.numDice; i++) {
             rollTotal += Random.Range(1, ability.diceMod);
         }
-        int statBonus = attacker.stats.Get(ability.statMod) * ability.statMulti;
+        int statBonus = attacker.stats.Get(ability.statType) * ability.statBonus;
         damage += rollTotal + statBonus + ability.baseDamage;
         if (defender.typeResistances.Contains(ability.damageType) && !defender.typeWeaknesses.Contains(ability.damageType))
         {

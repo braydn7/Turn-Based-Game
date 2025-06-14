@@ -7,6 +7,8 @@ public class CombatantInstance : MonoBehaviour
     public Stats stats;
     public int currentHP;
     public int currentMana;
+    public int currentInitiative = 0;
+
     public List<DamageType> typeResistances;
     public List<DamageType> typeWeaknesses;
     public List<Item> inventory;
@@ -34,4 +36,5 @@ public class CombatantInstance : MonoBehaviour
     public int MaxHP => stats.Get(BaseStat.CON);
     public int MaxMana => stats.Get(BaseStat.INT);
     public int Speed => stats.Get(BaseStat.DEX);
-}
+
+    }

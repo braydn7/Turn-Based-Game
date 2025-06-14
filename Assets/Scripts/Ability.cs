@@ -9,8 +9,8 @@ public class Ability : ScriptableObject
     public int baseDamage;
     public int diceMod;
     public int numDice;
-    public int statMulti;
-	public BaseStat statMod;
+    public int statBonus;
+	public BaseStat statType;
 	public DamageType damageType;
     public CombatClass combatClass;
 	public AbilityType abilityType;
