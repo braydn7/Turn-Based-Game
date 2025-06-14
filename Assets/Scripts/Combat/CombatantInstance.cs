@@ -5,9 +5,14 @@ public class CombatantInstance : MonoBehaviour
 {
     public string characterName;
     public Stats stats;
+	public CombatClassData combatClassData;
+	public TurnState turnState;
     public int currentHP;
     public int currentMana;
     public int currentInitiative = 0;
+	public int moveSpeedBonuses = 0;
+	public bool isActiveTurn = false;
+
 
     public List<DamageType> typeResistances;
     public List<DamageType> typeWeaknesses;
@@ -20,6 +25,7 @@ public class CombatantInstance : MonoBehaviour
         currentHP = MaxHP;
         currentMana = MaxMana;
         inventory = combatantTemplate.inventory;
+		turnState = new TurnState(MoveSpeed);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,8 +39,21 @@ public class CombatantInstance : MonoBehaviour
         
     }
 
+	public void StartTurn(int moveSpeed)
+	{
+		turnState.RefreshTurnState(moveSpeed);
+		isActiveTurn = true;
+	}
+
+	public void EndTurn()
+	{
+		isActiveTurn = false;
+	}
+
     public int MaxHP => stats.Get(BaseStat.CON);
     public int MaxMana => stats.Get(BaseStat.INT);
-    public int Speed => stats.Get(BaseStat.DEX);
+    public int InitiativeSpeed => stats.Get(BaseStat.DEX);
+
+	public int MoveSpeed => combatClassData.baseMovementSpeed + moveSpeedBonuses;
 
     }
