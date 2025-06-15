@@ -12,7 +12,8 @@ public class CombatantInstance : MonoBehaviour
     public int currentInitiative = 0;
 	public int moveSpeedBonuses = 0;
 	public bool isActiveTurn = false;
-
+	public Sprite sprite;
+	public Vector3Int gridPos;
 
     public List<DamageType> typeResistances;
     public List<DamageType> typeWeaknesses;

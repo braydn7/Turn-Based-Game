@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6eb4e78cec0e4864a993c758fdabc4d7, type: 3}
-  m_Name: fullTiles_17
+  m_Name: ClayFull
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 1650264734, guid: d7fb47d0d63bf334d8b16073050f636a, type: 3}
+  m_Sprite: {fileID: 1589272244, guid: d7fb47d0d63bf334d8b16073050f636a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

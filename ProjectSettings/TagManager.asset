@@ -41,14 +41,17 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Background
+  - name: Water
     uniqueID: 1344248697
     locked: 0
-  - name: Tile Outline
+  - name: Ground
     uniqueID: 3279614905
     locked: 0
-  - name: Foreground
+  - name: Hills
     uniqueID: 309698887
+    locked: 0
+  - name: Characters
+    uniqueID: 2765145253
     locked: 0
   m_RenderingLayers:
   - Default
