@@ -1,26 +1,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.Collections;
 
 public class CombatManager : MonoBehaviour
 {
-    private List<CombatantInstance> activeCombatants = new();
-    public Queue<CombatantInstance> turnQueue = new Queue<CombatantInstance>();
-    public int initiativeThreshold = 100;
+	private List<CombatantInstance> activeCombatants;
+    private Queue<CombatantInstance> turnQueue = new Queue<CombatantInstance>();
+    private int initiativeThreshold = 100;
 	public CombatantSpawner spawner;
 
 	void Start()
 	{
 	}
-    public void StartCombat(List<CombatantInstance> combatants)
+    public void StartCombat()
     {
-        activeCombatants = new List<CombatantInstance>(combatants);
-
+		CombatLoop();
     }
 
-	public void SpawnCombatants()
+	private IEnumerator CombatLoop()
 	{
+		while (true)
+		{
+			CombatTick();
+
+			while (turnQueue.Count > 0)
+			{
+				CombatantInstance combatant = turnQueue.Dequeue();
+				yield return StartCoroutine(combatant.TakeTurn());
+			}
+
+			yield return null;
+		}
 	}
+
     public void CombatTick()
     {
         foreach (CombatantInstance c in activeCombatants)
@@ -37,4 +50,10 @@ public class CombatManager : MonoBehaviour
             turnQueue.Enqueue(actingCombatant);
         }
     }
+
+	public void addCombatantToCombat(CombatantInstance combatant)
+	{
+		activeCombatants.Add(combatant);
+		return;
+	}
 }

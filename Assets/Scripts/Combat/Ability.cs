@@ -1,5 +1,10 @@
 using UnityEngine;
 
+public enum AbilityCostType
+{
+	Action,
+	BonusAction
+}
 [CreateAssetMenu(menuName = "Scriptable Objects/Ability")]
 public class Ability : ScriptableObject
 {
@@ -10,6 +15,7 @@ public class Ability : ScriptableObject
     public int diceMod;
     public int numDice;
     public int statBonus;
+	public AbilityCostType costType;
 	public BaseStat statType;
 	public DamageType damageType;
     public CombatClass combatClass;

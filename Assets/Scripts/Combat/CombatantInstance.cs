@@ -1,32 +1,48 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CombatantInstance : MonoBehaviour
 {
-    public string characterName;
-    public Stats stats;
-	public CombatClassData combatClassData;
-	public TurnState turnState;
-    public int currentHP;
-    public int currentMana;
     public int currentInitiative = 0;
 	public int moveSpeedBonuses = 0;
 	public bool isActiveTurn = false;
+
+	/* Assigned in the template */
+	public string characterName;
+	public int level;
+	public CombatClassData combatClassData;
 	public Sprite sprite;
-	public Vector3Int gridPos;
+	public List<Ability> abilities;
+	public List<Item> inventory;
+	public List<DamageType> typeResistances;
+	public List<DamageType> typeWeaknesses;
+	public Stats stats;
 
-    public List<DamageType> typeResistances;
-    public List<DamageType> typeWeaknesses;
-    public List<Item> inventory;
+	/* Assigned in constructor */
+	public TurnState turnState;
+	public int currentHP;
+	public int currentMana;
 
-    public void Initialize(CombatantTemplate combatantTemplate)
+	/* Assigned in Inspector  */
+	
+
+	/* Assigned in CombatantSpawner */
+	public MapManager mapManager;
+
+	/* Assigned by GameManager */
+	public Vector2Int gridPos;
+
+	public void Initialize(CombatantTemplate combatantTemplate)
     {
         characterName = combatantTemplate.Name;
-        stats = combatantTemplate.stats;
-        currentHP = MaxHP;
-        currentMana = MaxMana;
-        inventory = combatantTemplate.inventory;
-		turnState = new TurnState(MoveSpeed);
+		stats = new Stats(combatantTemplate.stats);
+		inventory = combatantTemplate.inventory;
+		sprite = combatantTemplate.sprite;
+		currentHP = MaxHP;
+		currentMana = MaxMana;
+		turnState = new TurnState(MoveSpeed, this);
+		this.GetComponent<SpriteRenderer>().sprite = sprite;
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,15 +56,76 @@ public class CombatantInstance : MonoBehaviour
         
     }
 
+
+
 	public void StartTurn(int moveSpeed)
 	{
 		turnState.RefreshTurnState(moveSpeed);
 		isActiveTurn = true;
 	}
 
+	public IEnumerator TakeTurn()
+	{
+		Debug.Log($"{characterName} is taking their turn.");
+		StartTurn(MoveSpeed);
+		bool wantMove = true;
+		bool wantAction = true;
+		//bool wantBonusAction = true;
+		Ability ability = abilities.Find(a => a.abilityName == "Fireball");
+		int wantedMovement = 5;
+		Vector2Int destination = new Vector2Int(Random.Range(-3, 3), Random.Range(-3, 3));
+		if (wantMove)
+		{
+			if (turnState.remainingMovement >= wantedMovement)
+			{
+				mapManager.MoveCombatant(this, destination);
+				turnState.SubtractMovement(wantedMovement);
+				Debug.Log($"{characterName} should have moved");
+				yield return new WaitForSeconds(2f); 
+			}
+			else
+			{
+				Debug.Log("Not enough movement");
+
+			}
+		}
+		
+		if (wantAction)
+		{
+			if(!turnState.actionAvailable)
+		{
+				Debug.Log($"{characterName} has no more actions available!");
+			}
+			else
+			{
+				Debug.Log($"{characterName} casts {ability.abilityName}");
+				turnState.UseAction();
+				yield return new WaitForSeconds(2f);
+			}
+
+		}
+
+		EndTurn();
+
+		yield return null;
+		/*if (wantBonusAction)
+		{
+
+		}
+		return null; */
+	}
+
 	public void EndTurn()
 	{
 		isActiveTurn = false;
+	}
+
+	public void UseAction(Ability ability)
+	{
+		if (ability.costType == AbilityCostType.Action)
+		{
+			
+		}
 	}
 
     public int MaxHP => stats.Get(BaseStat.CON);

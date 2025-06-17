@@ -15,7 +15,7 @@ public class MapManager : MonoBehaviour
 	public Tilemap hillTileMap;
 	public Tilemap characterTileMap;
 
-	private Dictionary<Vector3Int, bool> occupiedPositions = new Dictionary<Vector3Int, bool>();
+	private Dictionary<Vector2Int, bool> occupiedPositions = new Dictionary<Vector2Int, bool>();
 
 
 	void Awake()
@@ -27,16 +27,25 @@ public class MapManager : MonoBehaviour
 	{
 		return grid.CellToWorld((Vector3Int)gridPosition) + grid.cellSize / 2f;
 	}
-
-
-	public void MoveCombatant(GameObject combatant,  Vector3Int newGridPos)
+	public void MoveCombatant(CombatantInstance combatant,  Vector2Int newGridPos)
 	{
-		Vector3 newWorldPos = grid.CellToWorld(newGridPos);
-		combatant.transform.position = newWorldPos;
-		combatant.GetComponent<CombatantInstance>().gridPos = newGridPos;
+		Vector2Int oldPosition = new Vector2Int();
+		combatant.gridPos = oldPosition;
+		occupiedPositions.Remove(oldPosition);
+		if (occupiedPositions.ContainsKey(newGridPos)) {
+			Debug.Log("That tile is occupied!");
+			return;
+		}
+		else {
+			Vector3 newWorldPos = GetWorldPosition(newGridPos);
+			combatant.transform.position = newWorldPos;
+			combatant.gridPos = newGridPos;
+			occupiedPositions.Add(newGridPos, true);
+		}
+			
 	}
 
-	public bool CanPlaceChar(Vector3Int cellPosition)
+	public bool CanPlaceChar(Vector2Int cellPosition)
 	{
 		if (!IsGroundPassable(cellPosition))
 		{
@@ -45,7 +54,7 @@ public class MapManager : MonoBehaviour
 		return false;
 	}
 
-	public bool IsGroundPassable(Vector3Int cellPosition)
+	public bool IsGroundPassable(Vector2Int cellPosition)
 	{
 		GroundTile tile = getGroundTile(cellPosition);
 		if(tile == null){
@@ -63,9 +72,9 @@ public class MapManager : MonoBehaviour
 
 	}
 
-	public GroundTile getGroundTile(Vector3Int cellPosition)
+	public GroundTile getGroundTile(Vector2Int cellPosition)
 	{
-		TileBase tileBase = groundTileMap.GetTile(cellPosition);
+		TileBase tileBase = groundTileMap.GetTile(new Vector3Int(cellPosition.x, cellPosition.y, 0));
 		return tileBase as GroundTile;
 	}
 

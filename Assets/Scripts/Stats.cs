@@ -14,6 +14,10 @@ public enum BaseStat
 [System.Serializable]
 public class Stats
 {
+	public Stats (Stats other)
+	{
+		statDict = new Dictionary<BaseStat, int>(other.statDict);
+	}
 	[System.Serializable]
 	public class StatEntry
 	{

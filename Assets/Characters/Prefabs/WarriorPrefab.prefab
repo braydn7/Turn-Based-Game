@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8864249885745640145}
   - component: {fileID: -5084082642844919589}
   m_Layer: 0
-  m_Name: CombatantPrefab
+  m_Name: WarriorPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,31 +45,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d18bc6badee6f34f9a7c1c236cae0aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterName: Test
-  stats:
-    statEntries:
-    - stat: 0
-      value: 10
-    - stat: 1
-      value: 10
-    - stat: 2
-      value: 10
-    - stat: 3
-      value: 10
-    - stat: 4
-      value: 10
-    - stat: 5
-      value: 10
-  combatClassData: {fileID: 11400000, guid: a7f56fda1c8621b4d8403868525cdcda, type: 2}
-  currentHP: 20
-  currentMana: 50
-  currentInitiative: 5
+  currentInitiative: 0
   moveSpeedBonuses: 0
   isActiveTurn: 1
-  sprite: {fileID: -4187769825804618121, guid: ae26685cc784bd44794b86710a9cc4fc, type: 3}
+  characterName: 
+  level: 0
+  combatClassData: {fileID: 0}
+  sprite: {fileID: 0}
+  abilities: []
+  inventory: []
   typeResistances: 
   typeWeaknesses: 
-  inventory: []
+  stats:
+    statEntries: []
+  currentHP: 0
+  currentMana: 0
+  mapManager: {fileID: 0}
+  gridPos: {x: 0, y: 0}
 --- !u!212 &-5084082642844919589
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -114,7 +106,7 @@ SpriteRenderer:
   m_SortingLayerID: -1529822043
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4187769825804618121, guid: ae26685cc784bd44794b86710a9cc4fc, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -122,6 +114,6 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0

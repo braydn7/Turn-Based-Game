@@ -7,10 +7,12 @@ using UnityEngine.Tilemaps;
 public class CombatantTemplate : ScriptableObject
 {
     public string Name;
-    public int level;
-   
+	public int level;
+	public CombatClassData combatClassData;
 	public Sprite sprite;
 	public List<Ability> abilities;
     public List<Item> inventory;
-    public Stats stats;
+	public List<DamageType> typeResistances;
+	public List<DamageType> typeWeaknesses;
+	public Stats stats;
 }
