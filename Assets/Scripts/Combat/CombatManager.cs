@@ -5,7 +5,7 @@ using System.Collections;
 
 public class CombatManager : MonoBehaviour
 {
-	private List<CombatantInstance> activeCombatants;
+	private List<CombatantInstance> activeCombatants = new();
     private Queue<CombatantInstance> turnQueue = new Queue<CombatantInstance>();
     private int initiativeThreshold = 100;
 	public CombatantSpawner spawner;
@@ -15,13 +15,15 @@ public class CombatManager : MonoBehaviour
 	}
     public void StartCombat()
     {
-		CombatLoop();
+		Debug.Log("Attempting to start CombatLoop");
+		StartCoroutine(CombatLoop());
     }
 
 	private IEnumerator CombatLoop()
 	{
 		while (true)
 		{
+			Debug.Log("Attempting to perform CombatTick");
 			CombatTick();
 
 			while (turnQueue.Count > 0)
@@ -36,6 +38,7 @@ public class CombatManager : MonoBehaviour
 
     public void CombatTick()
     {
+		Debug.Log("CombatTick forloop");
         foreach (CombatantInstance c in activeCombatants)
         {
 			c.currentInitiative += c.InitiativeSpeed;

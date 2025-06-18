@@ -9,7 +9,7 @@ public class CombatantSpawner : MonoBehaviour
 	public MapManager mapManager;
 	public List<CombatantInstance> combatantPrefabs;
 
-	private int idCounter = 0;
+	// private int idCounter = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

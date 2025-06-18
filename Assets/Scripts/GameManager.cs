@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
 		SpawnCharacters();
+		Debug.Log("Made it to StartCombat");
 		combatManager.StartCombat();
     }
 

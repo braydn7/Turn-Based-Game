@@ -16,7 +16,14 @@ public class Stats
 {
 	public Stats (Stats other)
 	{
-		statDict = new Dictionary<BaseStat, int>(other.statDict);
+		other.Initialize(); //Make sure other is up to date
+		statDict = new Dictionary<BaseStat, int>();
+
+		foreach (var entry in other.statEntries)
+		{
+			statDict[entry.stat] = entry.value;
+		}
+		// statDict = new Dictionary<BaseStat, int>(other.statDict);
 	}
 	[System.Serializable]
 	public class StatEntry
@@ -26,7 +33,7 @@ public class Stats
 	}
 
 	[SerializeField]
-	private List<StatEntry> statEntries = new(); // Only for runtime start/inspector stuff. Ignore after start of game
+	private List<StatEntry> statEntries = new(); //Exists for serialization, needs to be copied over to dictionary
 
 	private Dictionary<BaseStat, int> statDict;
 
@@ -43,8 +50,11 @@ public class Stats
 
 	public int Get(BaseStat stat)
 	{
+		if (statDict.TryGetValue(stat, out var value))
+			return value;
 
-		return statDict[stat];
+		Debug.LogWarning($"Stat {stat} not found in statDict!");
+		return 0;
 	}
 
 	public void Set(BaseStat stat, int value)

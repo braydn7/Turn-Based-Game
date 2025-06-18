@@ -37,8 +37,10 @@ public class CombatantInstance : MonoBehaviour
     {
         characterName = combatantTemplate.Name;
 		stats = new Stats(combatantTemplate.stats);
+		abilities = combatantTemplate.abilities;
 		inventory = combatantTemplate.inventory;
 		sprite = combatantTemplate.sprite;
+		combatClassData = combatantTemplate.combatClassData;
 		currentHP = MaxHP;
 		currentMana = MaxMana;
 		turnState = new TurnState(MoveSpeed, this);
@@ -66,6 +68,7 @@ public class CombatantInstance : MonoBehaviour
 
 	public IEnumerator TakeTurn()
 	{
+		yield return new WaitForSeconds(2f);
 		Debug.Log($"{characterName} is taking their turn.");
 		StartTurn(MoveSpeed);
 		bool wantMove = true;
@@ -81,7 +84,7 @@ public class CombatantInstance : MonoBehaviour
 				mapManager.MoveCombatant(this, destination);
 				turnState.SubtractMovement(wantedMovement);
 				Debug.Log($"{characterName} should have moved");
-				yield return new WaitForSeconds(2f); 
+				yield return new WaitForSeconds(.5f); 
 			}
 			else
 			{
@@ -100,7 +103,6 @@ public class CombatantInstance : MonoBehaviour
 			{
 				Debug.Log($"{characterName} casts {ability.abilityName}");
 				turnState.UseAction();
-				yield return new WaitForSeconds(2f);
 			}
 
 		}
