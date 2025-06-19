@@ -26,7 +26,7 @@ public class MapManager : MonoBehaviour
 
 	public Vector3 GetWorldPosition(Vector2Int gridPosition)
 	{
-		return grid.CellToWorld((Vector3Int)gridPosition) + grid.cellSize / 2f;
+		return grid.GetCellCenterWorld(new Vector3Int(gridPosition.x, gridPosition.y, 0));
 	}
 	public void MoveCombatant(CombatantInstance combatant,  Vector2Int newGridPos)
 	{
@@ -102,6 +102,8 @@ public class MapManager : MonoBehaviour
 	public GroundTile getGroundTile(Vector2Int cellPosition)
 	{
 		TileBase tileBase = groundTileMap.GetTile(new Vector3Int(cellPosition.x, cellPosition.y, 0));
+		Tile tile = groundTileMap.GetTile<GroundTile>(new Vector3Int(cellPosition.x, cellPosition.y, 0));
+		
 		return tileBase as GroundTile;
 	}
 

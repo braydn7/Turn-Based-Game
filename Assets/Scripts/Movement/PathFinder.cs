@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ public class PathFinder : MonoBehaviour {
 
 		while (openSet.Count > 0)
 		{
-			openSet.Sort((a, b) => a.finalCost.CompareTo(b.finalCost));
+			openSet.Sort((a, b) => a.FinalCost.CompareTo(b.FinalCost));
 			var current = openSet[0];
 			openSet.RemoveAt(0);
 			closedSet.Add(current.position);
@@ -81,31 +82,77 @@ public class PathFinder : MonoBehaviour {
 	}
 
 
-	private int Heuristic(Vector2Int a, Vector2Int b)
+	private float Heuristic(Vector2Int current, Vector2Int goal)
 	{
-		int dx = a.x - b.x;
-		int dy = a.y - b.y;
-		return Mathf.Max(Mathf.Abs(dx), Mathf.Abs(dy), Mathf.Abs(-dx - dy));
+		int dx = goal.x - current.x;
+		int dy = goal.y - current.y;
+
+		// Adjust for offset coordinates
+		if (current.y % 2 != 0) // Odd row
+		{
+			if (dy > 0) // Goal is below
+				dx -= (dy + 1) / 2; // Adjust for odd row offset
+			else // Goal is above or same row
+				dx -= dy / 2;
+		}
+		else // Even row
+		{
+			if (dy > 0) // Goal is below
+				dx -= dy / 2; // Adjust for even row offset
+			else // Goal is above or same row
+				dx -= (dy - 1) / 2;
+		}
+
+		// Compute hexagonal distance
+		if (dx * dy >= 0) // Same quadrant (simplifies distance calculation)
+			return Math.Abs(dx) + Math.Abs(dy);
+		else // Different quadrants
+			return Math.Abs(dx) + Math.Abs(dy) - Math.Min(Math.Abs(dx), Math.Abs(dy));
 	}
 
-	private static readonly Vector2Int[] HexDirections = new Vector2Int[]
-{
-	new Vector2Int( 1,  0), // East
-    new Vector2Int( 1, -1), // South-East
-    new Vector2Int( 0, -1), // South-West
-    new Vector2Int(-1,  0), // West
-    new Vector2Int(-1,  1), // North-West
-    new Vector2Int( 0,  1), // North-East
-};
+	private static readonly Vector2Int[] OddYHexDirections = new Vector2Int[]
+	{
+		new Vector2Int( 1,  0), // East
+		new Vector2Int(-1,  0), // West
+		new Vector2Int( 1, -1), // South-East
+		new Vector2Int( 1,  1), // North-East
+		new Vector2Int( 0, -1), // South-West
+		new Vector2Int( 0,  1), // North-West
+	};
+
+	private static readonly Vector2Int[] EvenYHexDirections = new Vector2Int[]
+	{
+		new Vector2Int( 1,  0), // East
+		new Vector2Int(-1,  0), // West
+		new Vector2Int( 0, -1), // South-East
+		new Vector2Int( 0,  1), // North-East
+		new Vector2Int(-1, -1), // South-West
+		new Vector2Int(-1,  1), // North-West
+		
+		
+		
+	};
 
 	private List<Vector2Int> GetNeighbors(Vector2Int pos)
 	{
 		List<Vector2Int> neighbors = new List<Vector2Int>();
-		foreach (var dir in HexDirections)
-		{
-			neighbors.Add(pos + dir);
+		if(pos.y % 2 != 0)
+        {
+			foreach (var dir in OddYHexDirections)
+			{
+				neighbors.Add(pos + dir);
+			}
+			return neighbors;
 		}
-		return neighbors;
+        else
+        {
+			foreach (var dir in EvenYHexDirections)
+			{
+				neighbors.Add(pos + dir);
+			}
+			return neighbors;
+		}
+		
 	}
 
 
