@@ -25,7 +25,6 @@ public class CombatantInstance : MonoBehaviour
 	public int currentMana;
 
 	/* Assigned in Inspector  */
-	
 
 	/* Assigned in CombatantSpawner */
 	public MapManager mapManager;
@@ -60,37 +59,53 @@ public class CombatantInstance : MonoBehaviour
 
 
 
-	public void StartTurn(int moveSpeed)
+	public void StartTurn()
 	{
-		turnState.RefreshTurnState(moveSpeed);
+		turnState.RefreshTurnState(MoveSpeed);
 		isActiveTurn = true;
 	}
-
 	public IEnumerator TakeTurn()
 	{
 		yield return new WaitForSeconds(2f);
 		Debug.Log($"{characterName} is taking their turn.");
-		StartTurn(MoveSpeed);
+		StartTurn();
+
+
 		bool wantMove = true;
 		bool wantAction = true;
 		//bool wantBonusAction = true;
 		Ability ability = abilities.Find(a => a.abilityName == "Fireball");
-		int wantedMovement = 5;
-		Vector2Int destination = new Vector2Int(Random.Range(-3, 3), Random.Range(-3, 3));
+		
+
+
 		if (wantMove)
 		{
-			if (turnState.remainingMovement >= wantedMovement)
+			Debug.Log("Attempting to move");
+			var path = new List<Vector2Int>();
+			Vector2Int destination = new Vector2Int(8, 0);
+			path = mapManager.FindPath(gridPos, destination);
+			if (path != null)
 			{
-				mapManager.MoveCombatant(this, destination);
-				turnState.SubtractMovement(wantedMovement);
-				Debug.Log($"{characterName} should have moved");
-				yield return new WaitForSeconds(.5f); 
+				int wantedMovement = path.Count - 1;
+				if (turnState.remainingMovement >= wantedMovement)
+				{
+					mapManager.StartCoroutine(mapManager.MoveAlongPath(this, path));
+					mapManager.addOccupied(destination);
+					turnState.SubtractMovement(wantedMovement);
+					Debug.Log($"{characterName} should have moved");
+					yield return new WaitForSeconds(.2f);
+				}
+				else
+				{
+					Debug.Log("Not enough movement");
+
+				}
 			}
 			else
 			{
-				Debug.Log("Not enough movement");
-
+				Debug.Log("No valid path found)");
 			}
+			
 		}
 		
 		if (wantAction)
@@ -134,6 +149,6 @@ public class CombatantInstance : MonoBehaviour
     public int MaxMana => stats.Get(BaseStat.INT);
     public int InitiativeSpeed => stats.Get(BaseStat.DEX);
 
-	public int MoveSpeed => combatClassData.baseMovementSpeed + moveSpeedBonuses;
+	public int MoveSpeed => 9999; //combatClassData.baseMovementSpeed + moveSpeedBonuses;
 
     }

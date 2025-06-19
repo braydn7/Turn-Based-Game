@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-	int numCombatants = 5;
+	int numCombatants = 1;
 	public CombatManager combatManager;
 	public CombatantTemplate combatantTemplate;
 	public CombatantSpawner combatantSpawner;
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 	{
 		for (int i = 0; i < numCombatants; i++) 
 		{
-			combatantSpawner.SpawnCombatant(combatantTemplate, new Vector2Int(Random.Range(-4, 4), Random.Range(-4, 4)));
+			combatantSpawner.SpawnCombatant(combatantTemplate, new Vector2Int(-9, 0));
 		}
 		return;
 	}

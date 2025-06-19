@@ -9,6 +9,7 @@ public class MapManager : MonoBehaviour
 	public static MapManager instance;
 
 	[Header("References")]
+	public PathFinder pathFinder;
 	public Grid grid;
 	public Tilemap waterTileMap;
 	public Tilemap groundTileMap;
@@ -29,47 +30,73 @@ public class MapManager : MonoBehaviour
 	}
 	public void MoveCombatant(CombatantInstance combatant,  Vector2Int newGridPos)
 	{
-		Vector2Int oldPosition = new Vector2Int();
-		combatant.gridPos = oldPosition;
-		occupiedPositions.Remove(oldPosition);
-		if (occupiedPositions.ContainsKey(newGridPos)) {
-			Debug.Log("That tile is occupied!");
-			return;
+		
+		Vector3 newWorldPos = GetWorldPosition(newGridPos);
+		if (combatant.transform.position.x < newWorldPos.x)
+		{
+			combatant.GetComponent<SpriteRenderer>().flipX = true;
 		}
-		else {
-			Vector3 newWorldPos = GetWorldPosition(newGridPos);
-			combatant.transform.position = newWorldPos;
-			combatant.gridPos = newGridPos;
-			occupiedPositions.Add(newGridPos, true);
+		else
+		{
+			combatant.GetComponent<SpriteRenderer>().flipX = false;
 		}
-			
+		combatant.transform.position = newWorldPos;
+		combatant.gridPos = newGridPos;
 	}
 
+	public IEnumerator MoveAlongPath(CombatantInstance combatant, List<Vector2Int> path, float moveDelay = 0.2f)
+	{
+		foreach (var step in path)
+		{
+			MoveCombatant(combatant, step);
+			yield return new WaitForSeconds(moveDelay);
+		}
+	}
+
+	public List<Vector2Int> FindPath(Vector2Int start,  Vector2Int destination)
+	{
+		var path = new List<Vector2Int>();
+		path = pathFinder.FindPath(start, destination);
+		return path;
+	}
 	public bool CanPlaceChar(Vector2Int cellPosition)
 	{
-		if (!IsGroundPassable(cellPosition))
+		if (!IsCellPassable(cellPosition))
 		{
 			return false;
 		}
 		return false;
 	}
 
-	public bool IsGroundPassable(Vector2Int cellPosition)
+	public bool IsCellPassable(Vector2Int cellPosition)
 	{
 		GroundTile tile = getGroundTile(cellPosition);
-		if(tile == null){
-			Debug.Log("No ground tile at attempted location");
+		if (tile == null)
+		{
+			// Debug.Log("No ground tile at attempted location");
 			return false;
 		}
-		else if (tile.isTraversable)
+		else if (!tile.isTraversable)
 		{
-			return true;
+			return false;
+		}
+		else if (occupiedPositions.ContainsKey(cellPosition))
+		{
+			return false;
 		}
 		else
 		{
-			return false;
+			return true;
 		}
 
+	}
+
+	public void addOccupied(Vector2Int occupied)
+	{
+		if (!occupiedPositions.ContainsKey(occupied))
+		{
+			occupiedPositions.Add(occupied, true);
+		}
 	}
 
 	public GroundTile getGroundTile(Vector2Int cellPosition)
@@ -77,6 +104,13 @@ public class MapManager : MonoBehaviour
 		TileBase tileBase = groundTileMap.GetTile(new Vector3Int(cellPosition.x, cellPosition.y, 0));
 		return tileBase as GroundTile;
 	}
+
+	/* public GroundTile getWaterTile(Vector2Int cellPosition)
+	{
+		TileBase tileBase = waterTileMap.GetTile(new Vector3Int(cellPosition.x, cellPosition.y, 0));
+		return tileBase as GroundTile;
+	} */
+
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start()
