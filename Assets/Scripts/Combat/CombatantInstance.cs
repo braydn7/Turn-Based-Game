@@ -70,7 +70,7 @@ public class CombatantInstance : MonoBehaviour
 		Debug.Log($"{characterName} is taking their turn.");
 		StartTurn();
 
-
+		
 		bool wantMove = true;
 		bool wantAction = true;
 		//bool wantBonusAction = true;
