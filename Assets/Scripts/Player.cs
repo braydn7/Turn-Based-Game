@@ -1,10 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class Player : CombatantInstance
 {
 
-	public IENumerator TakeTurn()
+	public IEnumerator TakeTurn()
 	{
-
+		return null;
 	}
 }

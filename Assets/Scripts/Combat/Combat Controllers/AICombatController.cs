@@ -1,16 +1,10 @@
+using System.Collections;
 using UnityEngine;
 
-public class AICombatController : MonoBehaviour
-{
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+public class AICombatController : ICombatController
+{	public IEnumerator TakeTurn(CombatantInstance self)
+	{
+		self.StartTurn();
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
