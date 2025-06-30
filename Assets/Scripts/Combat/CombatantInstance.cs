@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CombatantInstance : MonoBehaviour
@@ -26,6 +27,9 @@ public class CombatantInstance : MonoBehaviour
 
 	/* Assigned in Inspector  */
 
+	/* Assigned in Awake */
+	SpriteRenderer renderer;
+
 	/* Assigned in CombatantSpawner */
 	public MapManager mapManager;
 
@@ -43,8 +47,13 @@ public class CombatantInstance : MonoBehaviour
 		currentHP = MaxHP;
 		currentMana = MaxMana;
 		turnState = new TurnState(MoveSpeed, this);
-		this.GetComponent<SpriteRenderer>().sprite = sprite;
     }
+
+	public void Awake()
+	{
+		renderer = this.AddComponent<SpriteRenderer>();
+		renderer.sprite = sprite;
+	}
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

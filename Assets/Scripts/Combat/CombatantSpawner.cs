@@ -25,8 +25,8 @@ public class CombatantSpawner : MonoBehaviour
 	public void SpawnCombatant(CombatantTemplate combatantTemplate, Vector2Int gridPos)
 	{
 		Vector3 worldPos = mapManager.GetWorldPosition(gridPos);
-		CombatantInstance warriorPrefab = combatantPrefabs[0];
-		CombatantInstance newCombatant = CombatantInstance.Instantiate(warriorPrefab, worldPos, Quaternion.identity);
+		Player playerTest = (Player)combatantPrefabs[0];
+		Player newCombatant = CombatantInstance.Instantiate(playerTest, worldPos, Quaternion.identity);
 		newCombatant.Initialize(combatantTemplate);
 		newCombatant.transform.parent = mapManager.characterTileMap.transform; //I think this just keeps things organized in Inspector
 		newCombatant.gridPos = gridPos;

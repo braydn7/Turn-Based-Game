@@ -10,9 +10,11 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+		/*
 		SpawnCharacters();
 		Debug.Log("Made it to StartCombat");
 		combatManager.StartCombat();
+		*/
     }
 
     // Update is called once per frame
