@@ -10,7 +10,7 @@ public class AbilityManager
 		Debug.Log($"Calculating {attacker.characterName}'s {ability.abilityName} damage onto {defender.characterName}");
         for (int i = 0; i < ability.numDice; i++) {
 			currentRoll = Random.Range(1, ability.diceMod);
-            rollTotal += Random.Range(1, ability.diceMod);
+			rollTotal += currentRoll;
 			Debug.Log($"Rolling D {ability.diceMod}");
 			Debug.Log($"Result: {currentRoll}");
         }
